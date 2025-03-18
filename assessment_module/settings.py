@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'assessments',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +70,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'assessment_module.wsgi.application'
 
+AUTH_USER_MODEL = 'assessments.Student'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
