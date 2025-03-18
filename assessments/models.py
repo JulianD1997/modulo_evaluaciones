@@ -5,11 +5,15 @@ from django.db import models
 
 
 class Student(AbstractUser):
+    # Se decide cambiar el id numerico por un UUID para evitar mejorar seguridad
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    # Se omiten campos innecesarios para el modelo estudiante
     username = None
     is_superuser = None
     is_staff = None
 
+    # Se agrega el campo para ingresar el código del estudiante
+    # Se valida que el código sea un número de máximo 10 dígitos
     code = models.CharField(
         max_length=10,
         unique=True,
@@ -19,9 +23,12 @@ class Student(AbstractUser):
             )
         ],
     )
+    # Se agrega el campo para la fecha del estudiante
     birth_date = models.DateField()
 
+    # como se omite el username, se define el código como campo de autenticación
     USERNAME_FIELD = "code"
+    # se define el campo email como requerido
     REQUIRED_FIELDS = ["email"]
 
     def __str__(self):
@@ -31,6 +38,7 @@ class Student(AbstractUser):
 class Teacher(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
+    # Se agrega el campo para ingresar la Cédula del profesor
     dni = models.CharField(
         max_length=10,
         unique=True,
@@ -46,6 +54,7 @@ class Teacher(models.Model):
 
 
 class Assessment(models.Model):
+    # Se valida el campo para que solo se pueda guardar un valor entre 1.0 y 5.0
     rating = models.DecimalField(
         max_digits=3,
         decimal_places=1,
@@ -60,6 +69,7 @@ class Assessment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        # Se asegura que un estudiante solo pueda calificar una vez a un profesor
         unique_together = ["teacher", "student"]
 
     def __str__(self):
