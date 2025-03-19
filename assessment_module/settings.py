@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # se agrega proyecto de evaluaciones
     "assessments",
 ]
 
@@ -55,6 +56,7 @@ ROOT_URLCONF = "assessment_module.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
+        # Se agregan las rutas para los templates tanto del proyecto principal como de la app evaluaciones
         "DIRS": [
             os.path.join(BASE_DIR, "templates"),
             os.path.join(BASE_DIR, "assessments", "templates"),
@@ -75,6 +77,7 @@ WSGI_APPLICATION = "assessment_module.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+# Se cambia el modelo de autenticación por el modelo de Estudiante
 AUTH_USER_MODEL = "assessments.Student"
 
 DATABASES = {
@@ -119,6 +122,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
+# Se agrega la ruta para los archivos estáticos CSS y JS
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
@@ -128,6 +132,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOGIN_URL = "/"
-LOGIN_REDIRECT_URL = "/inicio/"
-LOGOUT_REDIRECT_URL = "/"
+# Se define la ruta de inicio de sesión y redirección cuando se cierra sesión
+LOGIN_URL = "/login/"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "Login"

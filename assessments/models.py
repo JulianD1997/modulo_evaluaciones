@@ -33,7 +33,7 @@ class Student(AbstractUser):
     REQUIRED_FIELDS = ["email"]
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} code: {self.code}"
+        return f"{self.first_name} {self.last_name}"
 
 
 class Teacher(models.Model):

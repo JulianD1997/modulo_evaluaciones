@@ -1,0 +1,85 @@
+{% extends 'base_html.html' %} 
+{% block title %} Ver Docentes {% endblock %} 
+{% block content %}
+<header class="">
+  {% include "layouts/partials/nav.html" with user_name=user_name %}
+</header>
+<main class="row justify-content-evenly w-100 mt-5 ps-4">
+  <section class="">
+    <div class="card" style="width: 100%">
+      <div class="card-body">
+        <h5 class="card-title text-center">Calificaciones - Docentes</h5>
+        <p class="card-text">
+          En esta sección, puedes ver las calificaciones generales de los
+          docentes. La siguiente tabla muestra dos promedios de calificación
+          para cada docente:
+        </p>
+        <ul>
+          <li>
+            <strong>Promedio actual:</strong> Este promedio se calcula sumando
+            todas las calificaciones que los estudiantes han dado a este
+            docente. Luego, se divide entre el número de estudiantes que han
+            realizado la evaluación. Es decir, este promedio solo tiene en
+            cuenta las calificaciones que ya se han realizado.
+          </li>
+          <li>
+            <strong>Promedio total:</strong> Este promedio se calcula sumando
+            todas las calificaciones de los estudiantes (incluyendo aquellos que
+            no han evaluado al docente). Luego, esa suma se divide entre el
+            número total de estudiantes en la base de datos. Es decir, este
+            promedio considera a todos los estudiantes, independientemente de si
+            han evaluado al docente o no.
+          </li>
+        </ul>
+        <div class="container-fluid">
+          <form
+            class="d-flex"
+            role="search"
+            method="get"
+            action="{% url 'View_assessments' %}"
+          >
+            {% csrf_token %}
+            <input
+              class="form-control me-2"
+              type="search"
+              name="query"
+              placeholder="Buscar docente"
+              aria-label="Search"
+              value="{{ request.GET.query|default:'' }}"
+            />
+            <button class="btn btn-outline-success" type="submit">
+              Buscar
+            </button>
+          </form>
+        </div>
+        <table class="table table-hover">
+          <thead>
+            <tr class="text-center align-middle">
+              <th scope="col">#</th>
+              <th scope="col">Docente</th>
+              <th scope="col">Cédula</th>
+              <th scope="col">promedio actual</th>
+              <th scope="col">promedio total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for teacher in teacher_data %}
+            <tr
+              class="text-center align-middle"
+              role="button"
+              onclick="window.location.href='{% url 'Teacher_assessments' teacher.teacher.id %}'"
+            >
+              <th scope="row">{{ teacher.teacher.id }}</th>
+              <td>{{ teacher.teacher }}</td>
+              <td>{{ teacher.teacher.dni }}</td>
+              <td>{{ teacher.current_avg }}</td>
+              <td>{{ teacher.total_avg }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

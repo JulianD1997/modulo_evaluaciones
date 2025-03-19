@@ -20,7 +20,7 @@
           <a class="nav-link" href="{% url "Assessment" %}">Evaluar</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Ver Evaluaciones</a>
+          <a class="nav-link" href="{% url "View_assessments" %}">Ver Docentes</a>
         </li>
       </ul>
       <ul class="navbar-nav ms-auto mb-2">
@@ -29,7 +29,10 @@
             {{user_name}}
           </a>
           <ul class="dropdown-menu" style="left: -20px;">
-            <li><a class="dropdown-item" href="{% url "Logout" %}">Cerrar Sesión</a></li>
+            <li><form action="{% url 'Logout' %}" method="POST">
+              {% csrf_token %}
+              <button class="nav-link" type="submit">Cerrar sesión</button>
+          </form></li>
           </ul>
         </li>
       </ul>
