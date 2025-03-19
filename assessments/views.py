@@ -1,12 +1,12 @@
-from django.http import HttpResponse
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from faker import Faker
 
-from .models import Student, Teacher
+from .forms import AssessmentForm, LoginForm
+from .models import Assessment, Student, Teacher
 
-
-
-def create_data(request):
+""" def create_data(request):
     fake = Faker()
     for i in range(20):
         student = Student.objects.create(
@@ -26,3 +26,42 @@ def create_data(request):
         )
         teacher.save()
     return HttpResponse("Create data")
+"""
+
+
+def student_login(request):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            code = form.cleaned_data["code"]
+            password = form.cleaned_data["password"]
+            student = authenticate(request, code=code, password=password)
+            if student is not None:
+                login(request, student)
+                return HttpResponse("Login correcto")
+            else:
+                form.add_error(None, "Contraseña incorrecta")
+    else:
+        form = LoginForm()
+
+    return render(request, "layouts/login.html", {"form": form})
+
+
+def home_page(request):
+    return render(request, "layouts/home.html")
+
+
+def assessment_create(request):
+    if request.method == "POST":
+        form = AssessmentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse("Assessment created")
+    else:
+        form = AssessmentForm()
+    return render(request, "layouts/assessment.html", {"form": form})
+
+
+def find_assessment(request, id):
+    students = list(Student.objects.values())
+    return JsonResponse(students, safe=False)

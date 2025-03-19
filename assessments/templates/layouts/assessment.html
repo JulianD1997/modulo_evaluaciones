@@ -1,0 +1,36 @@
+{% extends 'base_html.html' %}
+
+{% block title %}
+  Login
+{% endblock %}
+
+{% block content %}
+  <header class=''>
+    {% include "layouts/partials/nav.html" %}
+  </header>
+
+  <main class='container d-flex justify-content-center align-items-center'>
+    <div class="col-md-6">
+      <h2 class="text-center text-light">Formulario para evaluar un docente</h2>
+      <form class='row g-3 bg-dark p-4 rounded' method="post">
+        {% csrf_token %}
+        <div class="db-dark input-group mb-3">
+            <label class="input-group-text text-dark" for="{{ form.teacher.id_for_label }}">{{ form.teacher.label }}</label>
+            {{ form.teacher }}
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="text-light" for="{{ form.rating.id_for_label }}">{{ form.rating.label }}</label>
+            {{ form.rating }}
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="text-light" for="{{ form.comment.id_for_label }}">{{ form.comment.label }}</label>
+            {{ form.comment }}
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Enviar</button>
+      </form>
+    </div>
+  </main>
+{% endblock %}
