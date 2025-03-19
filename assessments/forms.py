@@ -113,9 +113,6 @@ class AssessmentForm(forms.ModelForm):
             self.fields["teacher"].queryset = Teacher.objects.exclude(
                 id__in=excluded_teacher
             )
-        else:
-            print("no entro")
-            self.fields["teacher"].queryset = Teacher.objects.all()
 
     def clean_teacher(self):
         # Validar que se seleccione un docente
