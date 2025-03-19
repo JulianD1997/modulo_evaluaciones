@@ -71,7 +71,11 @@ class Assessment(models.Model):
 
     class Meta:
         # Se asegura que un estudiante solo pueda calificar una vez a un profesor
-        unique_together = ["teacher", "student"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["student", "teacher"], name="unique_assessment"
+            )
+        ]
 
     def __str__(self):
         return f"{self.student} califico con {self.rating} a {self.teacher}"

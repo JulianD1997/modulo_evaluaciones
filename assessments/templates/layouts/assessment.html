@@ -1,21 +1,28 @@
 {% extends 'base_html.html' %}
 
 {% block title %}
-  Login
+  Evaluar Docente
 {% endblock %}
 
 {% block content %}
   <header class=''>
-    {% include "layouts/partials/nav.html" %}
+    {% include "layouts/partials/nav.html" with user_name=user_name %}
   </header>
-
+  {% if messages  %}
+  <div class="alert alert-success d-flex align-items-center fade show" role="alert">
+    {% for message in messages %}
+      <strong>{{ message }}</strong>
+    {% endfor %}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endif %}
   <main class='container d-flex justify-content-center align-items-center'>
     <div class="col-md-6">
       <h2 class="text-center text-light">Formulario para evaluar un docente</h2>
       <form class='row g-3 bg-dark p-4 rounded' method="post">
         {% csrf_token %}
-        <div class="db-dark input-group mb-3">
-            <label class="input-group-text text-dark" for="{{ form.teacher.id_for_label }}">{{ form.teacher.label }}</label>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="{{ form.teacher.id_for_label }}">{{ form.teacher.label }}</label>
             {{ form.teacher }}
         </div>
 

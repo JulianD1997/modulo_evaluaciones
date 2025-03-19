@@ -1,33 +1,38 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+<nav class="navbar navbar-expand-md bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">navbar</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarText"
-      aria-controls="navbarText"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button 
+      class="navbar-toggler" 
+      type="button" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarSupportedContent" 
+      aria-controls="navbarSupportedContent" 
+      aria-expanded="false" 
+      aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
     </button>
-    <div
-      class="collapse navbar-collapse"
-      id="navbarText"
-    >
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="#">Inicio</a>
+          <a class="nav-link active" aria-current="page" href="{% url "Home" %}">Inicio</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Evaluar</a>
+          <a class="nav-link" href="{% url "Assessment" %}">Evaluar</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Ver Evaluaciones</a>
         </li>
       </ul>
-      <span class="navbar-text text-light">Julian Casallas</span>
+      <ul class="navbar-nav ms-auto mb-2">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{user_name}}
+          </a>
+          <ul class="dropdown-menu" style="left: -20px;">
+            <li><a class="dropdown-item" href="{% url "Logout" %}">Cerrar Sesión</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>

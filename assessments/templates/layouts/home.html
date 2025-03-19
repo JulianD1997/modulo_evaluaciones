@@ -1,9 +1,9 @@
 {% extends 'base_html.html' %}
 {% block title %}
-  Login
+  Inicio
 {% endblock %}
 {% block content %}
   <header class='w-100'>
-    {% include "layouts/partials/nav.html" %}
+    {% include "layouts/partials/nav.html" with user_name=user_name %}
   </header>
 {% endblock %}
