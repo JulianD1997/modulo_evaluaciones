@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from faker import Faker
 
-from .forms import LoginForm
+from .forms import AssessmentForm, LoginForm
 from .models import Assessment, Student, Teacher
 
 """ def create_data(request):
@@ -45,6 +45,21 @@ def student_login(request):
         form = LoginForm()
 
     return render(request, "layouts/login.html", {"form": form})
+
+
+def home_page(request):
+    return render(request, "layouts/home.html")
+
+
+def assessment_create(request):
+    if request.method == "POST":
+        form = AssessmentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse("Assessment created")
+    else:
+        form = AssessmentForm()
+    return render(request, "layouts/assessment.html", {"form": form})
 
 
 def find_assessment(request, id):

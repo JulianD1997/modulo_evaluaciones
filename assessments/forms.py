@@ -57,7 +57,7 @@ class AssessmentForm(forms.ModelForm):
     teacher = forms.ModelChoiceField(
         queryset=Teacher.objects.all(),
         label="Docente",
-        widget=forms.Select(attrs={"class": "form-control"}),
+        widget=forms.Select(attrs={"class": "form-control form-control-lg"}),
     )
     rating = forms.DecimalField(
         label="Calificación",
@@ -67,10 +67,15 @@ class AssessmentForm(forms.ModelForm):
             MinValueValidator(1.0, "No se permiten calificaciones menores a 1.0"),
             MaxValueValidator(5.0, "No se permiten calificaciones mayores a 5.0"),
         ],
+        widget=forms.NumberInput(attrs={"class": "form-control form-control-lg"}),
     )
     comment = forms.CharField(
         widget=forms.Textarea(
-            attrs={"rows": 5, "placeholder": "Comentarios", "class": "form-control"}
+            attrs={
+                "rows": 5,
+                "placeholder": "Comentarios",
+                "class": "form-control form-control-lg",
+            }
         )
     )
 
