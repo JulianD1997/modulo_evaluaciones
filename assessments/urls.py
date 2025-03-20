@@ -7,7 +7,9 @@ from . import views
 urlpatterns = [
     # Ruta para la página de inicio
     path("", views.home_page, name="Home"),
-    # Ruta para la página principal
+    # Ruta para registrarse
+    path("registrarse/", views.student_register, name="Register"),
+    # Ruta para la página login
     path("login/", views.student_login, name="Login"),
     # Ruta para evaluar
     path("docente/evaluar/", views.assessment_create, name="Assessment"),

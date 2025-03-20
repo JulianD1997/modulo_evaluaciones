@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Avg, Count, Q
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import AssessmentForm, LoginForm
+from .forms import AssessmentForm, LoginForm, StudentCreateForm
 from .models import Assessment, Student, Teacher
 
 # Función para crear datos de prueba
@@ -54,17 +54,37 @@ def student_login(request):
     else:
         # se crea un formulario vacío
         form = LoginForm()
-    return render(request, "layouts/login.html", {"form": form})
+    return render(request, "layouts/login_page.html", {"form": form})
+
+
+def student_register(request):
+    if request.method == "POST":
+        form = StudentCreateForm(request.POST)
+        # Se valida el formulario
+        if form.is_valid():
+            # Guardar al estudiante con la contraseña encriptada
+            form.save()
+            # Mostrar mensaje de éxito
+            messages.success(request, "¡Registro exitoso! Ahora puedes iniciar sesión.")
+            # Redirigir al usuario a la página de login
+            return redirect("Login")
+        else:
+            # Si el formulario no es válido, mostrar mensaje de error
+            messages.error(request, "Por favor, corrige los errores del formulario.")
+    else:
+        # Si es un GET, creamos un formulario vacío
+        form = StudentCreateForm()
+
+    return render(request, "layouts/register_page.html", {"form": form})
 
 
 # Pagina principal por ahora muestra el nombre del estudiante logeado
 @login_required
 def home_page(request):
     user_name = request.user.first_name + " " + request.user.last_name
-    return render(request, "layouts/home.html", {"user_name": user_name})
+    return render(request, "layouts/home_page.html", {"user_name": user_name})
 
 
-@login_required
 @login_required
 def assessment_create(request):
     user_name = request.user.first_name + " " + request.user.last_name
@@ -97,7 +117,7 @@ def assessment_create(request):
         form = AssessmentForm(initial={"student": request.user})
 
     return render(
-        request, "layouts/assessment.html", {"form": form, "user_name": user_name}
+        request, "layouts/assessment_page.html", {"form": form, "user_name": user_name}
     )
 
 
@@ -110,7 +130,7 @@ def view_assessments(request):
     query = request.GET.get("query", "").strip()
     if query:
         teachers = Teacher.objects.filter(
-            Q(first_name__icontains=query) | Q(last_name__icontains=query)
+            Q(first_name__istartswith=query) | Q(last_name__istartswith=query)
         )
     else:
         teachers = Teacher.objects.all().prefetch_related("assessment_set")
@@ -130,8 +150,19 @@ def view_assessments(request):
         current_avg = current_avg_data["rating_avg"] or 1
         # Esta variable se puede usar para comparar los estudiantes que han realizado la evaluación
         total_ratings = current_avg_data["total"]
-        # Calculo promedio total, aunque no hayan calificado se tiene en cuenta en este calculo
-        total_avg = (current_avg / students_count) if students_count > 0 else 1
+        sum_missing_ratings = students_count - total_ratings
+
+        """ Calculo promedio total, aunque no hayan calificado se tiene en cuenta 
+        en este calculo las calificaciones que no se han hecho se tienen en cuenta 
+        como la calificación mas baja posible """
+        total_avg = round(
+            (
+                ((current_avg + sum_missing_ratings) / students_count)
+                if students_count > 0
+                else 1
+            ),
+            1,
+        )
         # Datos para la lista de Docentes
         teacher_data.append(
             {
@@ -141,7 +172,7 @@ def view_assessments(request):
             }
         )
     data["teacher_data"] = teacher_data
-    return render(request, "layouts/view_assessment.html", data)
+    return render(request, "layouts/view_assessment_page.html", data)
 
 
 @login_required
@@ -156,4 +187,4 @@ def teacher_assessments(request, teacher_id):
         "teacher": teacher,
         "assessments": assessments,
     }
-    return render(request, "layouts/teacher_assessments.html", data)
+    return render(request, "layouts/teacher_assessments_page.html", data)
