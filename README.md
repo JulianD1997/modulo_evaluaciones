@@ -51,7 +51,7 @@ python -m venv .venv
 .venv\Scripts\activate
 ```
 
---
+-
 
 ### Instalar dependencias, configuracion del proyecto y arranque de servidor
 
@@ -66,7 +66,7 @@ python manage.py migrate
 python manage.py runserver
 ```
 
---
+---
 
 ## 🔑 Datos de Importancia
 
@@ -105,7 +105,7 @@ Para autenticarse deberá ingresar código de estudiante y contraseña
   | 5958584957 | Admin1234+ |
   | 1234567890 | Admin1234+ |
 
---
+---
 
 ## ✏️ Pruebas
 
@@ -134,7 +134,7 @@ cuando se llenan ambos campos, dar clip en en el botón **Login**
 
 si el estudiante no tiene cuenta puede crear una nueva haciendo clip en **<ins>Registrar</ins>**
 
---
+---
 
 ### Inicio
 
@@ -149,11 +149,12 @@ Barra de navegación:
 - **Ver Docentes** → Para ver un listado de todos los docentes
 - **Nombre de estudiante** al hacer clip se desplegara un submenu para cerrar sesión.
 
---
+---
 
 ### Evaluar
 
 Acceder desde la barra de navegación o ir a la dirección `http://127.0.0.1:8000/docente/evaluar/`
+
 Formulario:
 ![Evaluar](image-2.png)
 
