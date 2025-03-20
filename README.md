@@ -28,7 +28,7 @@ cd modulo_evaluaciones
 # opcional, abrir el proyecto con vs
 code .
 ```
-![alt text](image.png)
+
 --
 
 ### Creación y activación del entorno virtual
@@ -142,7 +142,7 @@ Acceder desde la barra de navegación o ir a la dirección `http://127.0.0.1:800
 pagina de inicio de la aplicación actualmente no tiene contenido, pero en ella se puede
 observar una barra de navegación en la parte superior:
 Barra de navegación:
-![inicio](img/image-1.png)
+![inicio](img/image_nav.png)
 
 - **Inicio** → Página actual.
 - **Evaluar** → Para calificar un docente.
