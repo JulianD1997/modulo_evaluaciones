@@ -36,7 +36,8 @@ Recomiendo usar un entorno virtual para gestionar las dependencias del proyecto 
 # crear entorno virtual
 python3 -m venv .venv
 # activar entorno virtual
-source .venv/bin/active
+source .venv/bin/activate
+e
 ```
 
 **Windows(CMD)**
