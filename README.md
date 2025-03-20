@@ -28,7 +28,7 @@ cd modulo_evaluaciones
 # opcional, abrir el proyecto con vs
 code .
 ```
-
+![alt text](image.png)
 --
 
 ### Creación y activación del entorno virtual
