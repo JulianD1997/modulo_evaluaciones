@@ -1,10 +1,7 @@
 # 📌 Módulo de Evaluaciones - Instalación y Uso
 
 _Esta es la solución para la prueba técnica de Django._
-Este proyecto, busca crear una aplicación web sencilla pero eficiente que permite
-a los estudiantes evaluar un docente por medio de una calificación y un comentario.
-También se desea implementar un formulario para registro e inicio de sesión manteniendo
-buenas practicas de código.
+Este proyecto, busca crear una aplicación web sencilla pero eficiente que permite a los estudiantes evaluar un docente por medio de una calificación y un comentario. También se desea implementar un formulario para registro e inicio de sesión manteniendo buenas practicas de código.
 
 ## 🛠 Instalación
 
@@ -16,8 +13,7 @@ buenas practicas de código.
 
 ### - Opción 2: Clonar el repositorio
 
-Todos lo realizado para la solución esta en el siguiente repositorio
-🔗 [Repositorio GitHub](https://github.com/JulianD1997/modulo_evaluaciones.git)
+Todos lo realizado para la solución esta en el siguiente repositorio 🔗 [Repositorio GitHub](https://github.com/JulianD1997/modulo_evaluaciones.git)
 Para clonar el repositorio, ejecuta los comandos en la terminal:
 
 ```bash
@@ -33,8 +29,7 @@ code .
 
 ### Creación y activación del entorno virtual
 
-Recomiendo usar un entorno virtual para gestionar las dependencias del proyecto
-Comandos para sistemas operativos
+Recomiendo usar un entorno virtual para gestionar las dependencias del proyecto Comandos para sistemas operativos
 **Linux/MacOS**
 
 ```bash
@@ -111,13 +106,11 @@ Para autenticarse deberá ingresar código de estudiante y contraseña
 
 ### Login(Inicio de sesión)
 
-Acceder al login
-Abrir en el navegador y acceder a la ruta:
+Acceder al login, Abrir en el navegador y acceder a la ruta:
 **http://127.0.0.1:8000** [Localhost:8000](http://127.0.0.1:8000/)
 
-- Acceder a esta ruta sera redirigido automáticamente a la ruta `/login/`
-  ya que se requiere autenticación para acceder a otras páginas.
-- Vista Login en la pagina de inicio de sesión, encontraras dos campos:
+- Acceder a esta ruta será redirigido automáticamente a la ruta `/login/`, ya que se requiere autenticación para acceder a otras páginas.
+- Vista Login en la página de inicio de sesión, encontrarás dos campos:
 
 ![Login](img/image.png)
 
@@ -125,9 +118,9 @@ Abrir en el navegador y acceder a la ruta:
 2. **Contraseña**
 
 Puedes completar los campos con los datos ofrecidos en la parte de arriba
-cuando se llenan ambos campos, dar clip en en el botón **Login**
+cuando se llenan ambos campos, dar clip en el botón **Login**
 
-- ✅ Si los campos están correctamente → redirige a la pagina de inicio
+- ✅ Si los campos están correctamente → redirige a la página de inicio
 - ❌ Si los campos son incorrectos → muestra mensajes indicando el error.
 
 ### Opcional
@@ -139,15 +132,15 @@ si el estudiante no tiene cuenta puede crear una nueva haciendo clip en **<ins>R
 ### Inicio
 
 Acceder desde la barra de navegación o ir a la dirección `http://127.0.0.1:8000/`
-pagina de inicio de la aplicación actualmente no tiene contenido, pero en ella se puede
-observar una barra de navegación en la parte superior:
+página de inicio de la aplicación actualmente no tiene contenido, pero en ella se puede observar una barra de navegación en la parte superior:
+
 Barra de navegación:
 ![inicio](img/image_nav.png)
 
 - **Inicio** → Página actual.
 - **Evaluar** → Para calificar un docente.
 - **Ver Docentes** → Para ver un listado de todos los docentes
-- **Nombre de estudiante** al hacer clip se desplegara un submenu para cerrar sesión.
+- **Nombre de estudiante** al hacer clip se desplegará un submenú para cerrar sesión.
 
 ---
 
@@ -158,48 +151,36 @@ Acceder desde la barra de navegación o ir a la dirección `http://127.0.0.1:800
 Formulario:
 ![Evaluar](img/image-2.png)
 
-- **lista desplegable** en ella se puede seleccionar el docente que se quiere calificar.
-  esta lista solo mostrara los docentes que hacen falta por calificar para el estudiante que inicio sesión
+- **lista desplegable** en ella se puede seleccionar el docente que se quiere calificar. Esta lista solo mostrará los docentes que hacen falta por calificar para el estudiante que inicio sesión
 - **Calificación** campo para ingresar la nota que desea evaluar en el rango de 1 a 5
 - **Comentarios** este Campo es requerido, necesita ingresar un comentario.
 
-cuando se complete el formulario le daremos clip en el botón enviar
+Cuando se complete el formulario le daremos clip en el botón enviar
 
-- ✅ Si los campos están correctamente → Guarda la evaluación y se actualiza la lista
-  desplegable(ya no mostrara el docente calificado)
-- ❌ Si los campos son incorrectos → muestra mensajes de error.
-  Puede indicar que no se permiten calificaciones menores a 1 o mayores a 5, debe ser un numero entero.
-  seleccionar docente, o que el campo de comentarios esta vació.
+- ✅ Si los campos están correctamente → Guarda la evaluación y se actualiza la lista desplegable(ya no mostrará el docente calificado)
+- ❌ Si los campos son incorrectos → muestra mensajes de error. Puede indicar que no se permiten calificaciones menores a 1 o mayores a 5, debe ser un número entero. Seleccionar docente, o que el campo de comentarios está vació.
 
 --
 
 ## Ver Docentes
 
 Acceder desde la barra de navegación o ir a la dirección `http://127.0.0.1:8000/docentes/listado/`
-Listado docentes:
+Listado docente:
 ![Docentes](img/image-4.png)
-En esta vista usted podrá observar todos los docentes que están guardados en la base de datos.
-esta lista costa de 4 campos.
+En esta vista usted podrá observar todos los docentes que están guardados en la base de datos. Esta lista costa de 4 campos.
 
 - **#** ID del docente
 - **Docente** Nombre del Profesor
 - **Cédula** Cédula del Docente
 - **Promedio actual** Promedio actual, suma total de notas divido en el total de
   estudiantes que calificaron hasta el momento
-- **promedio total** Promedio total, suma total de notas divido en el total de
-  estudiantes en la base de datos, las notas que no se han realizado se toman
-  como la nota mas baja posible(1).
+- **promedio total** Promedio total, suma total de notas divido en el total de estudiantes en la base de datos, las notas que no se han realizado se toman como la nota mas baja posible(1).
 
-Se puede buscar un docente por su nombre o apellido para mayor facilidad,
-ademas usted puede darle clip a la fila(casilla) de docente que usted quiera ver las
-calificaciones realizadas a ese profesor.
+Se puede buscar un docente por su nombre o apellido para mayor facilidad, además usted puede darle clip a la fila(casilla) de docente que usted quiera ver las calificaciones realizadas a ese profesor.
 
 ### Ver Evaluaciones
 
-Acceder desde la lista de docentes dando clip en la lista, al docente que desea
-observar o ir a la dirección `http://127.0.0.1:8000/docentes/{id}/evaluaciones/` ingresando el id de docente que quiere mirar.
-En esta pagina se puede observar toda la información de las calificaciones que
-se le realizaron al docente seleccionado.
+Acceder desde la lista de docentes, dando clip en la lista, al docente que desea observar o ir a la dirección `http://127.0.0.1:8000/docentes/{id}/evaluaciones/` ingresando el, id de docente que quiere mirar. En esta página se puede observar toda la información de las calificaciones que se le realizaron al docente seleccionado.
 Listado Evaluaciones:
 ![Evaluaciones](img/image-5.png)
 
@@ -215,8 +196,7 @@ En dado caso el docente no haya recibido calificaciones se mostrara un mensaje i
 
 # 📌 Módulo de Evaluaciones - Documentación de Desarrollo
 
-Este apartado describe el desarrollo de la prueba técnica, su finalidad, configuración,
-soluciones implementadas, bloqueos encontradas y mejoras propuestas para futuras versiones.
+Este apartado describe el desarrollo de la prueba técnica, su finalidad, configuración, soluciones implementadas, bloqueos encontradas y mejoras propuestas para futuras versiones.
 
 ### Buenas practicas
 
@@ -242,8 +222,7 @@ modulo_evaluaciones/
 
 ### Entorno virtual
 
-se utilizo un entorno virtual para evitar conflictos con otros proyectos y administrar
-las dependencias de manera aislada.
+Se utilizó un entorno virtual para evitar conflictos con otros proyectos y administrar las dependencias de manera aislada.
 
 ```bash
 # crear entorno virtual
@@ -264,8 +243,7 @@ source .venv/bin/active
   ]
   ```
 
-- Se utilizo SQLite como base de datos, dado que es un proyecto de prueba, obviamente
-  para producción, se recomienda un motor de base de datos mas robusto
+- Se utilizó SQLite como base de datos, dado que es un proyecto de prueba, obviamente para producción, se recomienda un motor de base de datos más robusta.
 
   ```python
   DATABASES = {
@@ -276,7 +254,7 @@ source .venv/bin/active
   }
   ```
 
-- Se configuro el sistema de autenticación igualmente para redireccionamientos
+- Se configuró el sistema de autenticación igualmente para redireccionamientos
 
   ```python
   # Se cambia el modelo de autenticación por el modelo de Estudiante
@@ -312,8 +290,8 @@ source .venv/bin/active
 
 ### urls.py
 
-- Se incluyen las rutas de las aplicación assessments dentro de las URLs principales
-- Como buena practica, cada aplicación debería manejar sus propias rutas. es por ello que se incluyen
+- Se incluyen las rutas de la aplicación assessments dentro de las URLs principales
+- Como buena práctica, cada aplicación debería manejar sus propias rutas. Es por ello que se incluyen.
 
 ```python
 urlpatterns = [
@@ -328,18 +306,15 @@ urlpatterns = [
 
 ### templates(Platillas)
 
-- Se creo una plantilla base para evitar repetir código en cada vista. Como proyecto
-  principal se deja la plantilla base para que pueda tener la misma apariencia.
+- Se creó una plantilla base para evitar repetir código en cada vista. Como proyecto principal se deja la plantilla base para que pueda tener la misma apariencia.
 
 ### static (archivos CSS y JS)
 
-- **bloqueo 1**: Estilización del Proyecto
-  Principalmente había instalado la dependencia Bootstrap para Django, pero algunos
-  archivos sobre todo JavaScript no funcionaban correctamente. Para solucionar esto:
+- **bloqueo 1**: Estilización del Proyecto Principalmente había instalado la dependencia Bootstrap para Django, pero algunos archivos, sobre todo JavaScript no funcionaban correctamente. Para solucionar esto:
   - Descargue los archivos CSS y JSS de Bootstrap.
   - Cargue la carpeta static para garantizar un correcto funcionamiento.
 
-Básicamente esta es la estructura del proyecto principal.
+Básicamente, esta es la estructura del proyecto principal.
 
 ## Aplicación assessments
 
@@ -382,8 +357,7 @@ Mejoras propuestas:
 Formulario para crear estudiante.
 
 - Incluye un campo `confirm_password` para validar la contraseña
-- Se agregan clases bootstrap a los inputs inputs para estilización por medio del
-  constructor
+- Se agregan clases bootstrap a los inputs inputs para estilización por medio del constructor
   ```python
   def __init__(self, *args, **kwargs):
           super(StudentCreateForm, self).__init__(*args, **kwargs)
@@ -414,8 +388,7 @@ Formulario para evaluar docentes:
 
 - incluye un campo **rating** validado para aceptar solo valores enteros entre 1 y 5.
 - Contiene un campo **comment** para las observaciones.
-- Se implementa un select dinámico que solo muestra los docentes que aún no han
-  sido calificados por el estudiante.
+- Se implementa un select dinámico que solo muestra los docentes que aún no han sido calificados por el estudiante.
   ```python
   def __init__(self, *args, **kwargs):
     # Para evitar que el estudiante escoja un docente que ya haya sido evaluado
@@ -439,11 +412,9 @@ Formulario para evaluar docentes:
 -**Bloqueo 2** Select dinámico
 Me encontré un problema al inicializar el select dinámico. Para solucionarlo:
 
-- Se depuro con `print()` y documentación oficial de Django
+- Se depuró con `print()` y documentación oficial de Django
 
-Plantee esta modificación de form para que excluya a los docentes ya calificados
-por el estudiante, con ello evitar posibles erres como que el docente ya fue
-calificados.
+Plantee esta modificación de form para que excluya a los docentes ya calificados por el estudiante, con ello evitar posibles erres como que el docente ya fue calificado.
 
 --
 
@@ -474,7 +445,7 @@ modelo para Docentes
             )
         ],
   ```
-- Representación del objeto con **str**
+- Representación del objeto con **\_\_str\_\_**
   ```python
       def __str__(self):
           return f"{self.first_name} {self.last_name}"
@@ -497,8 +468,7 @@ Modelo para evaluaciones
   ```
 
 -**Bloqueo 3**: Restricción de Evaluaciones:
-Inicialmente quería implementar una clave compuesta(id_student, id_teacher),
-pero Django recomienda usar constraints para definir esta restricción.
+Inicialmente quería implementar una clave compuesta(id_student, id_teacher), pero Django recomienda usar constraints para definir esta restricción.
 
 --
 
@@ -544,8 +514,7 @@ Se crearon un par de pruebas básicas para verificar el almacenamiento de estudi
 **`assessment_create`**
 
 - Verifica que el formulario sea valido
-- Envía el argumento del estudiante actual al formulario para omitir los docentes
-  ya calificados.
+- Envía el argumento del estudiante actual al formulario para omitir los docentes ya calificados.
   ```python
     form = AssessmentForm(initial={"student": request.user})
   ```
@@ -593,7 +562,7 @@ Se crearon un par de pruebas básicas para verificar el almacenamiento de estudi
             Q(first_name__istartswith=query) | Q(last_name__istartswith=query)
         )
   ```
-- Renderizar pagina para ver la lista de docentes.
+- Renderizar página para ver la lista de docentes.
 
 **`teacher_assessments`**
 
@@ -602,11 +571,11 @@ Se crearon un par de pruebas básicas para verificar el almacenamiento de estudi
   teacher = get_object_or_404(Teacher, id=teacher_id)
   assessments = Assessment.objects.filter(teacher=teacher)
   ```
-- En caso de ID invalido, retorna un error 404
+- En caso de ID inválido, retorna un error 404
   ```python
   teacher = get_object_or_404(Teacher, id=teacher_id)
   ```
-- Renderizar pagina para mostrar las calificaciones realizadas al docente.
+- Renderizar página para mostrar las calificaciones realizadas al docente.
 
 --
 
@@ -620,7 +589,4 @@ Se crearon un par de pruebas básicas para verificar el almacenamiento de estudi
 
 # Conclusion
 
-Pude encontrar recomendaciones mirando la documentación de django o buscando posibles
-de otras personas, para solucionar varios bloques, a pesar de que el proyecto da solución
-al problema planteado hay oportunidades de mejora. A futuro pienso implementar mejores
-practicas para mejorar la escalabilidad y buenas practicas.
+Pude encontrar recomendaciones mirando la documentación de django o buscando posibles de otras personas, para solucionar varios bloques, a pesar de que el proyecto da solución al problema planteado, hay oportunidades de mejora. A futuro pienso implementar mejores practicas para mejorar la escalabilidad y buenas practicas.
