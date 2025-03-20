@@ -117,10 +117,9 @@ Abrir en el navegador y acceder a la ruta:
 
 - Acceder a esta ruta sera redirigido automáticamente a la ruta `/login/`
   ya que se requiere autenticación para acceder a otras páginas.
-- Vista Login
+- Vista Login en la pagina de inicio de sesión, encontraras dos campos:
 
 ![Login](image.png)
-en la pagina de inicio de sesión, encontraras dos campos:
 
 1. **Código Estudiante**
 2. **Contraseña**
