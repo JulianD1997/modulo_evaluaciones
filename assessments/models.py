@@ -20,7 +20,7 @@ class Student(AbstractUser):
         unique=True,
         validators=[
             RegexValidator(
-                r"^\d{10}$", "El código deber ser un numero de max 10 dígitos"
+                r"^\d{1,10}$", "El código deber ser un numero de max 10 dígitos"
             )
         ],
     )
@@ -45,7 +45,7 @@ class Teacher(models.Model):
         unique=True,
         validators=[
             RegexValidator(
-                r"^\d{10}$", "La cédula deber ser un numero de max 10 dígitos"
+                r"^\d{8,10}$", "La cédula deber ser un numero de max 10 dígitos"
             )
         ],
     )
@@ -55,13 +55,11 @@ class Teacher(models.Model):
 
 
 class Assessment(models.Model):
-    # Se valida el campo para que solo se pueda guardar un valor entre 1.0 y 5.0
-    rating = models.DecimalField(
-        max_digits=3,
-        decimal_places=1,
+    # Se valida el campo para que solo se pueda guardar un valor entre 1 y 5
+    rating = models.IntegerField(
         validators=[
-            MinValueValidator(1.0, "No se permiten calificaciones menores a 1.0"),
-            MaxValueValidator(5.0, "No se permiten calificaciones mayores a 5.0"),
+            MinValueValidator(1, "No se permiten calificaciones menores a 1"),
+            MaxValueValidator(5, "No se permiten calificaciones mayores a 5"),
         ],
     )
     comment = models.TextField()

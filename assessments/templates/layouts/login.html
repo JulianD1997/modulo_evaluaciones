@@ -21,10 +21,24 @@
         <div class="mb-3 text-start">
           <label class="form-label" for="{{form.code.id_for_label}}">{{form.code.label}}</label>
           {{form.code}}
+          {% if form.code.errors %}
+            <div class="invalid-feedback d-block">
+              {% for error in form.code.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <div class="mb-4 text-start">
           <label class="form-label" for="{{form.password.id_for_label}}">{{form.password.label}}</label>
           {{form.password}}
+          {% if form.password.errors %}
+            <div class="invalid-feedback d-block">
+              {% for error in form.password.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
         <button class="btn btn-primary w-100 py-2" type="submit">Login</button>
       </form>
