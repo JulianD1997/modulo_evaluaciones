@@ -147,11 +147,20 @@ def view_assessments(request):
         current_avg_data = Assessment.objects.filter(teacher=teacher).aggregate(
             rating_avg=Avg("rating"), total=Count("rating")
         )
-        current_avg = current_avg_data["rating_avg"] or 1
+        current_avg = round(current_avg_data["rating_avg"] or 1, 1)
         # Esta variable se puede usar para comparar los estudiantes que han realizado la evaluación
         total_ratings = current_avg_data["total"]
         sum_missing_ratings = students_count - total_ratings
-
+        if sum_missing_ratings == 0:
+            total_avg = current_avg
+            teacher_data.append(
+                {
+                    "teacher": teacher,
+                    "current_avg": current_avg,
+                    "total_avg": total_avg,
+                }
+            )
+            continue
         """ Calculo promedio total, aunque no hayan calificado se tiene en cuenta 
         en este calculo las calificaciones que no se han hecho se tienen en cuenta 
         como la calificación mas baja posible """

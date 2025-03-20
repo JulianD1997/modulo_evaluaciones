@@ -99,7 +99,6 @@ Para autenticarse deberá ingresar código de estudiante y contraseña
   | 0094005623 | Admin1234+ |
   | 3497095338 | Admin1234+ |
   | 5958584957 | Admin1234+ |
-  | 1234567890 | Admin1234+ |
 
 ---
 
