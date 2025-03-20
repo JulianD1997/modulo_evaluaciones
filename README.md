@@ -118,21 +118,22 @@ Abrir en el navegador y acceder a la ruta:
 - Acceder a esta ruta sera redirigido automáticamente a la ruta `/login/`
   ya que se requiere autenticación para acceder a otras páginas.
 - Vista Login
-  ![Login](image.png)
-  en la pagina de inicio de sesión, encontraras dos campos:
 
-  1. **Código Estudiante**
-  2. **Contraseña**
+![Login](image.png)
+en la pagina de inicio de sesión, encontraras dos campos:
 
-  Puedes completar los campos con los datos ofrecidos en la parte de arriba
-  cuando se llenan ambos campos, dar clip en en el botón **Login**
+1. **Código Estudiante**
+2. **Contraseña**
 
-  - ✅ Si los campos están correctamente → redirige a la pagina de inicio
-  - ❌ Si los campos son incorrectos → muestra mensajes indicando el error.
+Puedes completar los campos con los datos ofrecidos en la parte de arriba
+cuando se llenan ambos campos, dar clip en en el botón **Login**
 
-  ### Opcional
+- ✅ Si los campos están correctamente → redirige a la pagina de inicio
+- ❌ Si los campos son incorrectos → muestra mensajes indicando el error.
 
-  si el estudiante no tiene cuenta puede crear una nueva haciendo clip en **<ins>Registrar</ins>**
+### Opcional
+
+si el estudiante no tiene cuenta puede crear una nueva haciendo clip en **<ins>Registrar</ins>**
 
 --
 
@@ -225,7 +226,9 @@ soluciones implementadas, bloqueos encontradas y mejoras propuestas para futuras
 --
 
 ## ⚙️ Configuración Proyecto principal
+
 Estructura de carpetas
+
 ```bash
 modulo_evaluaciones/
 │── assessment_module/ # carpeta con archivos principales .
@@ -305,7 +308,7 @@ source .venv/bin/active
   STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
   ```
 
-  --
+--
 
 ### urls.py
 
@@ -330,7 +333,7 @@ urlpatterns = [
 
 ### static (archivos CSS y JS)
 
-- bloqueo 1: Estilización del Proyecto
+- **bloqueo 1**: Estilización del Proyecto
   Principalmente había instalado la dependencia Bootstrap para Django, pero algunos
   archivos sobre todo JavaScript no funcionaban correctamente. Para solucionar esto:
   - Descargue los archivos CSS y JSS de Bootstrap.
@@ -353,3 +356,271 @@ assessments/
 │── urls.py # Rutas de la aplicación
 │── tests.py # Pruebas automáticas
 ```
+
+--
+
+### template (plantillas)
+
+- assessment_page.html → Formulario de evaluación docente
+- home_page.html → Página de inicio
+- login_page.html → Formulario de inicio de sesión
+- register_page.html → Formulario de registro de estudiantes
+- teacher_assessments_page.html → Calificaciones de un docente específico
+- view_assessment_page.html → Lista de docentes con su promedio actual
+
+Mejoras propuestas:
+
+- Crear una plantilla base especifica para la aplicación assessments con la barra
+  de navegación incluida.
+- Evaluar el uso de Tailwind CSS en lugar de bootstrap para mejorar el rendimiento.
+
+--
+
+## Forms.py (Formularios)
+
+**`StudentCreateForm`**
+Formulario para crear estudiante.
+
+- Incluye un campo `confirm_password` para validar la contraseña
+- Se agregan clases bootstrap a los inputs inputs para estilización por medio del
+  constructor
+  ```python
+  def __init__(self, *args, **kwargs):
+          super(StudentCreateForm, self).__init__(*args, **kwargs)
+          # Asignar la clase CSS 'form-control form-control-lg' a los campos de texto
+          for field in self.fields.values():
+              field.widget.attrs["class"] = (
+                  field.widget.attrs.get("class", "") + " form-control form-control-lg"
+              )
+  ```
+- Se sobrescribe el método save para encriptar la contraseña antes de guardarla.
+
+**`LoginForm`**
+Formulario para iniciar sesión
+
+- Se validan los inputs para evitar caracteres especiales en campos numéricos.
+- Se añaden clases de bootstrap para una mejor presentación.
+  ```python
+  validators=[
+              RegexValidator(
+                  r"^\d{1,10}$", "El código deber ser un numero de max 10 dígitos"
+              )
+          ],
+  widget=forms.TextInput(attrs={"class": "form-control form-control-lg"}),
+  ```
+
+**`AssessmentForm`**
+Formulario para evaluar docentes:
+
+- incluye un campo **rating** validado para aceptar solo valores enteros entre 1 y 5.
+- Contiene un campo **comment** para las observaciones.
+- Se implementa un select dinámico que solo muestra los docentes que aún no han
+  sido calificados por el estudiante.
+  ```python
+  def __init__(self, *args, **kwargs):
+    # Para evitar que el estudiante escoja un docente que ya haya sido evaluado
+    # Se filtran los docentes que ya han sido evaluados
+    if "initial" in kwargs:
+        student = kwargs["initial"]["student"]
+    else:
+        student = None
+    super(AssessmentForm, self).__init__(*args, **kwargs)
+    print(student)
+    if student:
+        print("entro")
+        excluded_teacher = Assessment.objects.filter(student=student).values_list(
+            "teacher", flat=True
+        )
+        self.fields["teacher"].queryset = Teacher.objects.exclude(
+            id__in=excluded_teacher
+        )
+  ```
+
+-**Bloqueo 2** Select dinámico
+Me encontré un problema al inicializar el select dinámico. Para solucionarlo:
+
+- Se depuro con `print()` y documentación oficial de Django
+
+Plantee esta modificación de form para que excluya a los docentes ya calificados
+por el estudiante, con ello evitar posibles erres como que el docente ya fue
+calificados.
+
+--
+
+## Models.py (Modelos)
+
+**`Student`**
+Modelo para estudiantes.
+
+- Hereda de User de django
+- Se elimina el campo username, usando code como identificador único
+  ```python
+    USERNAME_FIELD = "code"
+  ```
+- Se usa UUID en lugar de ID numérico para mayor seguridad
+  ```python
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+  ```
+- Se agregan campos adicionales como birth_date.
+
+**`Teacher`**
+modelo para Docentes
+
+- Incluye first_name, last_name y dni (validado entre 8-10 caracteres).
+  ```python
+    validators=[
+            RegexValidator(
+                r"^\d{8,10}$", "La cédula deber ser un numero de max 10 dígitos"
+            )
+        ],
+  ```
+- Representación del objeto con **str**
+  ```python
+      def __str__(self):
+          return f"{self.first_name} {self.last_name}"
+  ```
+
+**`Assessment`**
+Modelo para evaluaciones
+
+- rating: Número entero entre 1 y 5.
+- comment: Comentarios
+- Restricción para evitar calificaciones duplicadas de un estudiante a un docente.
+  ```python
+  class Meta:
+        # Se asegura que un estudiante solo pueda calificar una vez a un profesor
+        constraints = [
+            models.UniqueConstraint(
+                fields=["student", "teacher"], name="unique_assessment"
+            )
+        ]
+  ```
+
+-**Bloqueo 3**: Restricción de Evaluaciones:
+Inicialmente quería implementar una clave compuesta(id_student, id_teacher),
+pero Django recomienda usar constraints para definir esta restricción.
+
+--
+
+## tests.py
+
+Se crearon un par de pruebas básicas para verificar el almacenamiento de estudiantes y docentes, se uso Faker para generar datos aleatorios en las pruebas.
+
+- **Mejoras Propuestas**
+  - Implementar mas pruebas unitarias.
+
+## views.py
+
+**`student_login`**
+
+- valida que el código y contraseña sean correctos
+  ```python
+  if form.is_valid():
+              code = form.cleaned_data["code"]
+              password = form.cleaned_data["password"]
+              # Se autentica el estudiante
+              student = authenticate(request, code=code, password=password)
+              # Si se pudo loguear se redirige a la página principal
+              if student is not None:
+                  login(request, student)
+                  return redirect("Home")
+              else:
+                  form.fields["password"].error_messages = {
+                      "invalid": "Contraseña incorrecta"
+                  }
+                  form.add_error("password", "Código o Contraseña incorrecta")
+  ```
+- Renderiza la plantilla login_page.html
+
+**`student_register`**
+
+- Verifica que todos los datos ingresados cumplan con los requisitos.
+- Renderiza la plantilla register_page.html
+
+**`home_page`**
+
+- Renderiza la página de inicio.
+
+**`assessment_create`**
+
+- Verifica que el formulario sea valido
+- Envía el argumento del estudiante actual al formulario para omitir los docentes
+  ya calificados.
+  ```python
+    form = AssessmentForm(initial={"student": request.user})
+  ```
+- Renderiza el formulario de evaluación docente.
+
+**`view_assessments`**
+
+- Obtiene la lista de docentes con su promedio actual y total.
+
+  ```python
+    for teacher in teachers:
+        # Calculo promedio actual
+        current_avg_data = Assessment.objects.filter(teacher=teacher).aggregate(
+            rating_avg=Avg("rating"), total=Count("rating")
+        )
+        current_avg = current_avg_data["rating_avg"] or 1
+        # Esta variable se puede usar para comparar los estudiantes que han realizado la evaluación
+        total_ratings = current_avg_data["total"]
+        sum_missing_ratings = students_count - total_ratings
+
+        """ Calculo promedio total, aunque no hayan calificado se tiene en cuenta
+        en este calculo las calificaciones que no se han hecho se tienen en cuenta
+        como la calificación mas baja posible """
+        total_avg = round(
+            (
+                ((current_avg + sum_missing_ratings) / students_count)
+                if students_count > 0
+                else 1
+            ),
+            1,
+        )
+        # Datos para la lista de Docentes
+        teacher_data.append(
+            {
+                "teacher": teacher,
+                "current_avg": current_avg,
+                "total_avg": total_avg,
+            }
+        )
+  ```
+
+- Permitir filtrar docentes por su nombre o apellido.
+  ```python
+  teachers = Teacher.objects.filter(
+            Q(first_name__istartswith=query) | Q(last_name__istartswith=query)
+        )
+  ```
+- Renderizar pagina para ver la lista de docentes.
+
+**`teacher_assessments`**
+
+- busca un docente por su ID y muestra todas sus evaluaciones.
+  ```python
+  teacher = get_object_or_404(Teacher, id=teacher_id)
+  assessments = Assessment.objects.filter(teacher=teacher)
+  ```
+- En caso de ID invalido, retorna un error 404
+  ```python
+  teacher = get_object_or_404(Teacher, id=teacher_id)
+  ```
+- Renderizar pagina para mostrar las calificaciones realizadas al docente.
+
+--
+
+## Mejoras Futuras
+
+- Migrar a vistas basadas en clases (CBV) para mejorar la organización y escalabilidad del código.
+- Documentar con triple comillas ("""docstring""") cada función y modelo en el código base.
+- Implementar un sistema de permisos más detallado para diferenciar roles de usuario.
+
+--
+
+# Conclusion
+
+Pude encontrar recomendaciones mirando la documentación de django o buscando posibles
+de otras personas, para solucionar varios bloques, a pesar de que el proyecto da solución
+al problema planteado hay oportunidades de mejora. A futuro pienso implementar mejores
+practicas para mejorar la escalabilidad y buenas practicas.
