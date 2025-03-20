@@ -34,7 +34,7 @@ Recomiendo usar un entorno virtual para gestionar las dependencias del proyecto 
 
 ```bash
 # crear entorno virtual
-python3 -m venv. venv
+python3 -m venv .venv
 # activar entorno virtual
 source .venv/bin/active
 ```
