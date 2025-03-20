@@ -119,7 +119,7 @@ Abrir en el navegador y acceder a la ruta:
   ya que se requiere autenticación para acceder a otras páginas.
 - Vista Login en la pagina de inicio de sesión, encontraras dos campos:
 
-![Login](image.png)
+![Login](img/image.png)
 
 1. **Código Estudiante**
 2. **Contraseña**
@@ -142,7 +142,7 @@ Acceder desde la barra de navegación o ir a la dirección `http://127.0.0.1:800
 pagina de inicio de la aplicación actualmente no tiene contenido, pero en ella se puede
 observar una barra de navegación en la parte superior:
 Barra de navegación:
-![inicio](image-1.png)
+![inicio](img/image-1.png)
 
 - **Inicio** → Página actual.
 - **Evaluar** → Para calificar un docente.
@@ -156,7 +156,7 @@ Barra de navegación:
 Acceder desde la barra de navegación o ir a la dirección `http://127.0.0.1:8000/docente/evaluar/`
 
 Formulario:
-![Evaluar](image-2.png)
+![Evaluar](img/image-2.png)
 
 - **lista desplegable** en ella se puede seleccionar el docente que se quiere calificar.
   esta lista solo mostrara los docentes que hacen falta por calificar para el estudiante que inicio sesión
@@ -177,7 +177,7 @@ cuando se complete el formulario le daremos clip en el botón enviar
 
 Acceder desde la barra de navegación o ir a la dirección `http://127.0.0.1:8000/docentes/listado/`
 Listado docentes:
-![Docentes](image-4.png)
+![Docentes](img/image-4.png)
 En esta vista usted podrá observar todos los docentes que están guardados en la base de datos.
 esta lista costa de 4 campos.
 
@@ -201,7 +201,7 @@ observar o ir a la dirección `http://127.0.0.1:8000/docentes/{id}/evaluaciones/
 En esta pagina se puede observar toda la información de las calificaciones que
 se le realizaron al docente seleccionado.
 Listado Evaluaciones:
-![Evaluaciones](image-5.png)
+![Evaluaciones](img/image-5.png)
 
 - **tabla de contenido**
   - **Estudiante** Nombre de estudiante
