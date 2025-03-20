@@ -9,7 +9,7 @@
     {% include "layouts/partials/nav.html" with user_name=user_name %}
   </header>
   {% if messages  %}
-  <div class="alert alert-success d-flex align-items-center fade show" role="alert">
+  <div class="alert alert-{{ message.tags }} d-flex align-items-center fade show" role="alert">
     {% for message in messages %}
       <strong>{{ message }}</strong>
     {% endfor %}
@@ -29,6 +29,13 @@
         <div class="form-group mb-3">
             <label class="text-light" for="{{ form.rating.id_for_label }}">{{ form.rating.label }}</label>
             {{ form.rating }}
+            {% if form.rating.errors %}
+            <div class="invalid-feedback d-block">
+              {% for error in form.rating.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
 
         <div class="form-group mb-3">

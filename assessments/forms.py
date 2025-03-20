@@ -48,7 +48,7 @@ class LoginForm(forms.Form):
         max_length=10,
         validators=[
             RegexValidator(
-                r"^\d{10}$", "El código debe ser un número de máximo 10 dígitos"
+                r"^\d{1,10}$", "El código deber ser un numero de max 10 dígitos"
             )
         ],
         widget=forms.TextInput(attrs={"class": "form-control form-control-lg"}),
@@ -70,15 +70,17 @@ class AssessmentForm(forms.ModelForm):
         widget=forms.Select(attrs={"class": "form-select"}),
     )
     # Campo para ingresar un numero decimal
-    rating = forms.DecimalField(
+    rating = forms.IntegerField(
         label="Calificación",
-        max_digits=3,
-        decimal_places=1,
         validators=[
-            MinValueValidator(1.0, "No se permiten calificaciones menores a 1.0"),
-            MaxValueValidator(5.0, "No se permiten calificaciones mayores a 5.0"),
+            MinValueValidator(1, "No se permiten calificaciones menores a 1"),
+            MaxValueValidator(5, "No se permiten calificaciones mayores a 5"),
         ],
-        widget=forms.NumberInput(attrs={"class": "form-control form-control-lg"}),
+        widget=forms.NumberInput(
+            attrs={
+                "class": "form-control form-control-lg",
+            }
+        ),
     )
     # Campo para Text Area para ingresar comentarios
     comment = forms.CharField(

@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg, Count, Q
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import AssessmentForm, LoginForm
 from .models import Assessment, Student, Teacher
@@ -46,7 +46,11 @@ def student_login(request):
                 login(request, student)
                 return redirect("Home")
             else:
-                form.add_error(None, "Contraseña incorrecta")
+                form.fields["password"].error_messages = {
+                    "invalid": "Contraseña incorrecta"
+                }
+                form.add_error("password", "Código o Contraseña incorrecta")
+                print(form.errors)
     else:
         # se crea un formulario vacío
         form = LoginForm()
@@ -61,30 +65,36 @@ def home_page(request):
 
 
 @login_required
+@login_required
 def assessment_create(request):
     user_name = request.user.first_name + " " + request.user.last_name
 
     if request.method == "POST":
         form = AssessmentForm(request.POST)
-
         if form.is_valid():
             student = request.user
-            assessment = form.save(commit=False)
-            assessment.student = student
-            assessment.save()
-            messages.success(
-                request, f"Calificación Guardada para el Docente {assessment.teacher}"
-            )
-            # Crear un nuevo Formulario con el estudiante logeado para que califique
-            # a los docentes que hacen falta por evaluar
-            form = AssessmentForm(initial={"student": request.user})
-            return redirect("Assessment")
+            try:
+                assessment = form.save(commit=False)
+                assessment.student = student
+                assessment.save()
+                # Mostrar mensaje para confirmar que se guardo la calificación
+                messages.success(
+                    request,
+                    f"Calificación guardada para el Docente {assessment.teacher}",
+                )
+                # Se crea un nuevo formulario para que el estudiante pueda calificar a otro docente
+                form = AssessmentForm(initial={"student": request.user})
+                return redirect("Assessment")
+            except Exception as e:
+                # en caso suceda algún error
+                messages.error(
+                    request, f"Hubo un error al guardar la evaluación: {str(e)}"
+                )
+        else:
+            # si hay errores en el formulario
+            messages.error(request, "Por favor, corrige los errores del formulario.")
     else:
         form = AssessmentForm(initial={"student": request.user})
-
-    # Se limpia la cola de mensajes
-    storage = messages.get_messages(request)
-    storage.used = True
 
     return render(
         request, "layouts/assessment.html", {"form": form, "user_name": user_name}
@@ -103,7 +113,11 @@ def view_assessments(request):
             Q(first_name__icontains=query) | Q(last_name__icontains=query)
         )
     else:
-        teachers = Teacher.objects.all()
+        teachers = Teacher.objects.all().prefetch_related("assessment_set")
+
+    if not teachers:
+        messages.warning(request, "No se encontraron docentes")
+        return render(request, "layouts/view_assessment.html", data)
 
     teacher_data = []
     # Estudiantes totales
@@ -133,7 +147,8 @@ def view_assessments(request):
 @login_required
 def teacher_assessments(request, teacher_id):
     user_name = request.user.first_name + " " + request.user.last_name
-    teacher = Teacher.objects.get(id=teacher_id)
+    # En dado caso el ID no exista se envía un error 404
+    teacher = get_object_or_404(Teacher, id=teacher_id)
     print(teacher)
     assessments = Assessment.objects.filter(teacher=teacher)
     data = {
