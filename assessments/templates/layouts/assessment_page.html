@@ -1,0 +1,64 @@
+{% extends 'base_html.html' %} {% block title %} Evaluar Docente {% endblock %}
+{% block content %}
+<header class="">
+  {% include "layouts/partials/nav.html" with user_name=user_name %}
+</header>
+{% if messages %} {% for message in messages %}
+<div
+  class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} d-flex align-items-center fade show"
+  role="alert"
+>
+  <strong>{{ message }}</strong>
+  <button
+  type="button"
+  class="btn-close"
+  data-bs-dismiss="alert"
+  aria-label="Close"></button>
+</div>
+{% endfor %}
+
+
+{% endif %}
+<main class="container d-flex justify-content-center align-items-center">
+  <div class="col-md-6">
+    <h2 class="text-center text-light">Formulario para evaluar un docente</h2>
+    {% if form.teacher.field.queryset.exists %}
+    <form class="row g-3 bg-dark p-4 rounded" method="post">
+      {% csrf_token %}
+      <div class="input-group mb-3">
+        <label class="input-group-text" for="{{ form.teacher.id_for_label }}"
+          >{{ form.teacher.label }}</label
+        >
+        {{ form.teacher }}
+      </div>
+
+      <div class="form-group mb-3">
+        <label class="text-light" for="{{ form.rating.id_for_label }}"
+          >{{ form.rating.label }}</label
+        >
+        {{ form.rating }} {% if form.rating.errors %}
+        <div class="invalid-feedback d-block">
+          {% for error in form.rating.errors %}
+          <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="form-group mb-3">
+        <label class="text-light" for="{{ form.comment.id_for_label }}"
+          >{{ form.comment.label }}</label
+        >
+        {{ form.comment }}
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Enviar</button>
+    </form>
+    {% else %}
+    <div class="alert alert-warning text-center">
+      No tienes evaluaciones pendientes.
+    </div>
+    {% endif %}
+  </div>
+</main>
+{% endblock %}

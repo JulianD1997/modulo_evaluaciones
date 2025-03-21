@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+  <!-- Plantilla base del proyecto principal se deja definido las rutas para los
+  archivos de bootstrap y poder modelar el proyecto con esta herramienta -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %}</title>
+
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
+  </head>
+  <body class="bg-dark">
+    {% block content %} {% endblock %}
+
+    
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  </body>
+</html>
